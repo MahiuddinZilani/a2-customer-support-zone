@@ -3,13 +3,14 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Banner from "./components/Banner";
 import { initialTickets } from "./data/tickets";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import TicketCard from "./components/TicketCard";
 import TaskStatus from "./components/TaskStatus";
 
 function App() {
   const [tickets, setTickets] = useState(initialTickets);
   const [inProgressTasks, setInProgressTasks] = useState([]);
+  const [resolvedTasks, setResolvedTasks] = useState([]);
   const [resolvedCount, setResolvedCount] = useState(0);
 
   const inProgressCount = inProgressTasks.length;
@@ -25,9 +26,21 @@ function App() {
   };
 
   const handleComplete = (ticketId) => {
+    const completedTicket = inProgressTasks.find((t) => t.id === ticketId);
+    if (!completedTicket) return;
+
     setInProgressTasks((prev) => prev.filter((t) => t.id !== ticketId));
 
     setTickets((prev) => prev.filter((t) => t.id !== ticketId));
+
+    setResolvedTasks((prev) => [
+      ...prev,
+      {
+        ...completedTicket,
+        status: "Resolved",
+        resolvedAt: new Date().toISOString().split("T")[0],
+      },
+    ]);
 
     setResolvedCount((prev) => prev + 1);
 
@@ -63,16 +76,19 @@ function App() {
 
           {/* Right - Task Status */}
           <div>
-            <h2 className="text-2xl font-bold mb-6">Task Status</h2>
+            {/* <h2 className="text-2xl font-bold mb-6">Task Status</h2> */}
             <TaskStatus
-              tasks={inProgressTasks}
+              inProgressTasks={inProgressTasks}
+              resolvedTasks={resolvedTasks}
               onComplete={handleComplete}
             ></TaskStatus>
 
-            <h2 className="text-2xl font-bold mb-6">Resolved Task</h2>
+            {/* <h2 className="text-2xl font-bold mb-6">Resolved Task</h2> */}
           </div>
         </div>
       </main>
+
+      <ToastContainer position="top-right" autoClose={4000}></ToastContainer>
     </>
   );
 }
