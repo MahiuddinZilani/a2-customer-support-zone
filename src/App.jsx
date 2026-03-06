@@ -5,6 +5,7 @@ import Banner from "./components/Banner";
 import { initialTickets } from "./data/tickets";
 import { toast } from "react-toastify";
 import TicketCard from "./components/TicketCard";
+import TaskStatus from "./components/TaskStatus";
 
 function App() {
   const [tickets, setTickets] = useState(initialTickets);
@@ -21,6 +22,16 @@ function App() {
 
     setInProgressTasks((prev) => [...prev, ticket]);
     toast.success(`Ticket #${ticket.id} added to In-Progress`);
+  };
+
+  const handleComplete = (ticketId) => {
+    setInProgressTasks((prev) => prev.filter((t) => t.id !== ticketId));
+
+    setTickets((prev) => prev.filter((t) => t.id !== ticketId));
+
+    setResolvedCount((prev) => prev + 1);
+
+    toast.success(`Ticket #${ticketId} is resolved successfully!`);
   };
 
   // console.log(tickets);
@@ -48,6 +59,17 @@ function App() {
                 ></TicketCard>
               ))}
             </div>
+          </div>
+
+          {/* Right - Task Status */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Task Status</h2>
+            <TaskStatus
+              tasks={inProgressTasks}
+              onComplete={handleComplete}
+            ></TaskStatus>
+
+            <h2 className="text-2xl font-bold mb-6">Resolved Task</h2>
           </div>
         </div>
       </main>
