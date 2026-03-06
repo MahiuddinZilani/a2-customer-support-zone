@@ -73,7 +73,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <a className="btn bg-linear-to-r from-[#422AD5] to-purple-400 ">
+          <a className="btn bg-linear-to-r from-[#422AD5] via-indigo-500 to-purple-500 text-white">
             + New Ticket
           </a>
         </div>
