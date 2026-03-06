@@ -6,6 +6,7 @@ import { initialTickets } from "./data/tickets";
 import { toast, ToastContainer } from "react-toastify";
 import TicketCard from "./components/TicketCard";
 import TaskStatus from "./components/TaskStatus";
+import Footer from "./components/Footer";
 
 function App() {
   const [tickets, setTickets] = useState(initialTickets);
@@ -53,7 +54,7 @@ function App() {
     <>
       <Navbar></Navbar>
 
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="flex-grow container max-w-7xl mx-auto px-4 py-8">
         <Banner
           inProgressCount={inProgressCount}
           resolvedCount={resolvedCount}
@@ -87,6 +88,8 @@ function App() {
           </div>
         </div>
       </main>
+
+      <Footer></Footer>
 
       <ToastContainer position="top-right" autoClose={4000}></ToastContainer>
     </>
